@@ -1,0 +1,200 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header">
+      <div>Update Check Point</div>
+      <div>
+        <button nbButton status="primary" size="small" (mousedown)="backToAddChecksheet()">Back</button>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <form #form="ngForm" name="form" aria-labelledby="title" novalidate>
+      <span>
+        <div class="form-group row">
+          <label for="name" class="col-sm-3 col-form-label">Check Point</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput fullWidth type="text" class="form-control" name="name" placeholder="Required" required
+                [(ngModel)]="checkpoints.name" #name="ngModel" required
+                [status]="(name.dirty|| isSubmitted) ? (name.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="name.invalid && (name.touched || isSubmitted) ? true : null"
+                [class.locked-field]="isReadonly">
+            </div>
+            <ngx-validation-message label="Name" [showRequired]="name?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="standard" class="col-sm-3 col-form-label">Standard</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="text" id="standard" fullWidth class="form-control" name="standard"
+                [(ngModel)]="checkpoints.standard" #standard="ngModel" required
+                [status]="(standard.dirty|| isSubmitted) ? (standard.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="standard.invalid && (standard.touched || isSubmitted) ? true : null"
+                [class.locked-field]="isReadonly">
+            </div>
+            <ngx-validation-message label="Standard" [showRequired]="standard?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="condition" class="col-sm-3 col-form-label">Condition</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="text" id="condition" fullWidth class="form-control" name="condition"
+                [(ngModel)]="checkpoints.condition" #condition="ngModel" required
+                [status]="(condition.dirty|| isSubmitted) ? (condition.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="condition.invalid && (condition.touched || isSubmitted) ? true : null"
+                [class.locked-field]="isReadonly">
+            </div>
+            <ngx-validation-message label="Condition" [showRequired]="condition?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="method" class="col-sm-3 col-form-label">Method</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="text" id="method" fullWidth class="form-control" name="method"
+                [(ngModel)]="checkpoints.method" #method="ngModel" required
+                [status]="(method.dirty|| isSubmitted) ? (method.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="method.invalid && (method.touched || isSubmitted) ? true : null"
+                [class.locked-field]="isReadonly">
+            </div>
+            <ngx-validation-message label="Method" [showRequired]="method?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="srno" class="col-sm-3 col-form-label">Sr.No</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="number" fullWidth class="form-control" name="srno" [(ngModel)]="checkpoints.seqOrder"
+                #srno="ngModel" [status]="(srno.dirty|| isSubmitted) ? (srno.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="srno.invalid && (srno.touched || isSubmitted) ? true : null" pattern="[0-9]*"
+                [class.locked-field]="isReadonly" required>
+            </div>
+            <ngx-validation-message label="Sequence NO" [showRequired]="srno?.errors?.required "
+              [showPattern]="srno?.hasError('pattern') && srno.touched">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="completein" class="col-sm-3 col-form-label">Complete In</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="number" fullWidth class="form-control" name="completein"
+                [(ngModel)]="checkpoints.completeInSeconds" #completein="ngModel" required
+                [status]="(completein.dirty|| isSubmitted) ? (completein.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="completein.invalid && (completein.touched || isSubmitted) ? true : null"
+                [class.locked-field]="isReadonly" pattern="[0-9]*">
+            </div>
+            <ngx-validation-message label="Complete In Seconds" [showRequired]="completein?.errors?.required "
+              [showPattern]="completein?.hasError('pattern')&& completein.touched">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="frequency" class="col-sm-3 col-form-label">Frequency</label>
+          <div class="col-sm-9 ">
+            <nb-select [(selected)]="checkpoints.frequencyType" (selectedChange)="changefreaquency($event)"
+              [class.locked-field]="isReadonly" style="margin-right:4px;">
+              <nb-option value="Daily">Daily</nb-option>
+              <nb-option value="Weekly">Weekly</nb-option>
+              <nb-option value="Monthly">Monthly</nb-option>
+              <nb-option value="Yearly">Yearly</nb-option>
+            </nb-select>
+
+            <label for="weekday" *ngIf="checkpoints.frequencyType === 'Weekly'">Weekday:</label>
+            <nb-select multiple [(selected)]="checkpoints.weekDays" id="weekDays" style="width: 50%; margin-right:4px;"
+              *ngIf="checkpoints.frequencyType === 'Weekly'" (selectedChange)="changeweekdays($event)"
+              [class.locked-field]="isReadonly">
+              <nb-option *ngFor="let option of weekdayOptions" [value]="option.value">
+                {{ option.label }}
+              </nb-option>
+            </nb-select>
+
+
+
+            <label style="margin-right:1px;" for="monthDay"
+              *ngIf="checkpoints.frequencyType === 'Monthly'">Date:</label>
+            <nb-select multiple [(selected)]="checkpoints.monthDays" id="monthDays"
+              style="width: 30%; margin-right:4px;" (selectedChange)="changemonthdays($event)"
+              [class.locked-field]="isReadonly" *ngIf="checkpoints.frequencyType === 'Monthly'">
+              <nb-option *ngFor="let day of monthDays" [value]="day">
+                {{ day }}
+              </nb-option>
+            </nb-select>
+
+
+
+
+
+            <label style="margin-right:1px;" for="month" *ngIf="checkpoints.frequencyType === 'Yearly'">Month:</label>
+            <nb-select *ngIf="checkpoints.frequencyType === 'Yearly'" multiple [(selected)]="checkpoints.yearlyMonths"
+              id="yearlyMonths" style="width: 50%; margin-right:4px;" (selectedChange)="changeyearlymonths($event)"
+              [class.locked-field]="isReadonly">
+              <nb-option *ngFor="let month of yearlymonths" [value]="month.value">
+                {{ month.label }}
+              </nb-option>
+            </nb-select>
+
+
+
+            <label style="margin-right:1px;" for="day" *ngIf="checkpoints.frequencyType === 'Yearly'">Date:</label>
+            <nb-select *ngIf="checkpoints.frequencyType === 'Yearly'" style="width: 30%;margin-right:4px;" multiple
+              [(selected)]="checkpoints.yearlyMonthDays" id="monthDays"
+              (selectedChange)="changesyearlymonthsdays($event)" [class.locked-field]="isReadonly">
+              <nb-option *ngFor="let day of yearlymonthdays" [value]="day">
+                {{ day }}
+              </nb-option>
+            </nb-select>
+
+
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="file" class="col-sm-3 col-form-label">File Upload</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+
+              <input nbInput type="text" [(ngModel)]="checkpoints.fileName" #fileName="ngModel" name="fileName"
+                [class.locked-field]="isReadonly" style="height:100%;">&nbsp;
+              <button status="primary" nbButton (click)="uploadFile()" *ngIf="!isReadonly" style="height:100%;">Browse</button>
+              &nbsp;
+              <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"
+                [class.locked-field]="isReadonly" >
+              &nbsp;
+              <input hidden nbInput type="text" fullWidth class="form-control" name="uniqueFileName"
+                [(ngModel)]="checkpoints.uniqueFileName" #uniqueFileName="ngModel" readonly
+                [class.locked-field]="isReadonly" >
+                <img  style="align-items: center;" *ngIf="url" [src]="url" (click)="togglePopup()" alt="Uploaded Image" width="120" height="120"
+                    [class.locked-field]="isReadonly">
+            </div>
+
+          </div>
+        </div>
+
+      </span>
+      <div class="offset-sm-5 col-sm-6">
+        <div class="container-btn">
+          <button nbButton status="primary" size="small" (click)="save(form)" *ngIf="!isReadonly">Save</button>&nbsp;
+          <button nbButton status="danger" size="small" (click)="deleteCheckpoint()" *ngIf="showDelete">Delete</button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

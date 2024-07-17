@@ -1,0 +1,37 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    .OK {
+        margin-right: 5rem;
+    }
+}
+
+.draggable-checkbox {
+    cursor: move;
+    margin-bottom: 2px;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.draggable-checkbox nb-checkbox {
+    display: block;
+    padding: 5px;
+}
+
+.draggable-checkbox nb-checkbox:hover {
+    background-color: #f0f0f0;
+}
+.cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.scroll-container {
+    max-height: 120px;
+    overflow-y: auto;
+}
+.Card-scroll-container {
+    max-height: 550px;
+    overflow-y: auto;
+}

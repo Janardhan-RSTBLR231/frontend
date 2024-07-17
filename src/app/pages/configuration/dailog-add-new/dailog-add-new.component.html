@@ -1,0 +1,28 @@
+<nb-card>
+  <nb-card-header>Enter the new {{ title }} data</nb-card-header>
+  <nb-card-body>
+    <div class="table">
+      <div class="row">
+        <div class="col-md-4">
+          <label for="code" style=" font-size:medium">Code</label>
+        </div>
+        <div class="col-md-4">
+          <input nbInput #code id="code" placeholder="Enter the Code" [(ngModel)]="tabledetail.code" />
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-4">
+          <label for="name" style="width: fit-content;">Description</label>
+        </div>
+        <div class="col-md-6">
+          <input nbInput #name id="name" placeholder="Enter the Name" [(ngModel)]="tabledetail.description" />
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+    <button nbButton status="success" (click)="submit()">Submit</button>
+  </nb-card-footer>
+</nb-card>

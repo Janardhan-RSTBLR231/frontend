@@ -1,0 +1,113 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-body>
+
+    <div class="container-fluid" style="margin-top: 6px;" >
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr >
+              <td><label class="label1" style="font-size: 15px;">Control No:</label></td>
+              <td><label class="label2" 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.uniqueId }}</label></td>
+              <td><label style="font-size: 15px;">Check Sheet Name:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.name }}</label></td>
+              <td><label style="font-size: 15px;">Department:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.department }}</label></td>
+              <td><label style="font-size: 15px;">Line:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.line }}</label></td>
+            </tr>
+            <tr>
+              <td><label style="font-size: 15px;">Equipment No:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.equipmentCode }}</label></td>
+              <td><label style="font-size: 15px;">Equipment:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.equipment }}</label></td>
+              <td><label style="font-size: 15px;">Station:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.station }}</label></td>
+              <td><label style="font-size: 15px;">Revision:</label></td>
+              <td><label  nbTooltip="{{ checkSheetTransaction.changeDetails }}"
+                  nbTooltipPlacement="top" nbTooltipStatus="info" style="cursor: pointer;" nbTooltipStatus="primary"
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.revision }}</label></td>
+            </tr>
+            <tr>
+              <td><label style="font-size: 15px;">Maintenance class:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.maintenaceClass }}</label></td>
+              <td><label style="font-size: 15px;">Location:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.location }}</label></td>
+              <td><label style="font-size: 15px;">Sub Location:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{ checkSheetTransaction.subLocation }}</label></td>
+              <td><label style="font-size: 15px;">Date Created:</label></td>
+              <td><label 
+                  style="font-weight: bold; font-size: 15px; margin-right: 20px;">{{
+                  checkSheetTransaction.createdOn | date: 'dd.MMM.yyyy' }}</label></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top:0px;">
+      <div class="fixed-width-div1">
+        <div>
+          <div style="display:inline-block;margin-left:5px">
+            <label style="display: block; font-weight: bold;  font-size: 14px; ">Check Record</label>
+            <nb-select [(ngModel)]="applydd" [class.locked-field]="userActions.isReadOnly" placeholder="Select"
+              style="width: 185px; text-align:center; ">
+              <nb-option value="OK">OK</nb-option>
+              <nb-option value="NA">NA</nb-option>
+            </nb-select>
+            &nbsp;
+            <button class="  btn btn-primary" style="margin-right: 5px;margin-bottom:4px;" nbButton status="primary"
+              size="small" (click)="onApplyStatus()" [class.locked-field]="userActions.isReadOnly" >Apply to All</button>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-width-div" style="margin-top:10px;">
+        <div>
+          <button class=" btn btn-primary btn-back" style="margin-top: 15px;" nbButton status="primary" size="small"
+            (click)="exportToExcel()" *ngIf="userActions.showExportPrintVersion">Export Print Version</button>&nbsp;
+          <button class=" btn btn-primary btn-back" style="margin-top: 15px;" nbButton status="primary" size="small"
+            (click)="onSubmit()"
+            *ngIf="userActions.showSubmitButton">Submit</button>&nbsp;
+          <button class=" btn btn-primary btn-back" style="margin-top: 15px;" nbButton status="primary" size="small"
+            (click)="ApproveCheckSheet()" *ngIf="userActions.showApproveButton">Approve</button>&nbsp;
+          <button class=" btn btn-primary btn-back" style="margin-top: 15px;" nbButton status="primary" size="small"
+            (mousedown)="back()">Back</button>&nbsp;
+        </div>
+      </div>
+    </div>
+    <br>
+    <nb-tabset>
+      <nb-tab tabTitle="ALL">
+        <ng2-smart-table [settings]="settings" [source]="allData"
+          [class.locked-field]="userActions.isReadOnly" ></ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="NG" [badgeText]="badgeCount.NG" badgePosition="top right" badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="ngData"
+          [class.locked-field]="userActions.isReadOnly" ></ng2-smart-table>
+      </nb-tab>
+
+      <nb-tab tabTitle="OK" [badgeText]="badgeCount.OK" badgePosition="top right" badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="okData"
+          [class.locked-field]="userActions.isReadOnly" ></ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="Abnormal (can use)" [badgeText]="badgeCount.AbnormalCanUse" badgePosition="top right"
+        badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="abnormalcuData"
+          [class.locked-field]="userActions.isReadOnly"></ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="NA" [badgeText]="badgeCount.NA" badgePosition="top right" badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="naData"
+          [class.locked-field]="userActions.isReadOnly"></ng2-smart-table>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

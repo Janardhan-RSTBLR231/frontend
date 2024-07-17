@@ -1,0 +1,11 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    textarea {
+        width: 300px;
+    }
+
+    .OK {
+        margin-right: 5rem;
+    }
+}

@@ -1,0 +1,17 @@
+<nb-card>
+    <nb-card-header>Enter Shift</nb-card-header>
+    <nb-card-body>
+        <form [formGroup]="shiftForm" (ngSubmit)="submitShift()">
+            <input nbInput formControlName="shift" class="form-control">
+            <div *ngIf="shiftControl.invalid || shiftControl.value.trim() === ''" class="text-danger">
+                Shift is required.
+            </div>
+            <br>
+            <nb-card-footer>
+                <button class="OK" nbButton status="success" type="submit"
+                    [disabled]="shiftForm.invalid || shiftControl.value.trim() === ''">OK</button>
+                <button nbButton status="danger" (click)="cancel()">Cancel</button>
+            </nb-card-footer>
+        </form>
+    </nb-card-body>
+</nb-card>

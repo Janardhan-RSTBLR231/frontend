@@ -1,0 +1,160 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header">
+      <div>ADD Check Point</div>
+      <div><button nbButton status="primary" size="medium" (mousedown)="backToAddChecksheet()">Back</button></div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form #form="ngForm" name="form" aria-labelledby="title" novalidate>
+      <span>
+
+        <div class="form-group row">
+          <label for="name" class="col-sm-3 col-form-label">Check Point</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput fullWidth type="text" class="form-control" name="name" placeholder="Required" required
+                [(ngModel)]="this.checkpoint.name" #name="ngModel" required
+                [status]="(name.dirty|| isSubmitted) ? (name.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="name.invalid && (name.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Name" [showRequired]="name?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="standard" class="col-sm-3 col-form-label">Standard</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="text" fullWidth class="form-control" name="standard" placeholder="Required" required
+                [(ngModel)]="this.checkpoint.standard" #standard="ngModel"
+                [status]="(standard.dirty|| isSubmitted) ? (standard.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="standard.invalid && (standard.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Standard" [showRequired]="standard?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="condition" class="col-sm-3 col-form-label">Condition</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="text" fullWidth class="form-control" name="condition" placeholder="Required" required
+                [(ngModel)]="this.checkpoint.condition" #condition="ngModel"
+                [status]="(condition.dirty|| isSubmitted) ? (condition.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="condition.invalid && (condition.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Condition" [showRequired]="condition?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="method" class="col-sm-3 col-form-label">Method</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="text" fullWidth class="form-control" name="method" placeholder="Required" required
+                [(ngModel)]="this.checkpoint.method" #method="ngModel"
+                [status]="(method.dirty|| isSubmitted) ? (method.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="method.invalid && (method.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Method" [showRequired]="method?.errors?.required">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="srno" class="col-sm-3 col-form-label">Sr.No</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="number" fullWidth class="form-control" name="srno" placeholder="Required" required
+                [(ngModel)]="this.checkpoint.seqOrder" #srno="ngModel" pattern="[0-9]*"
+                [status]="(srno.dirty|| isSubmitted) ? (srno.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="srno.invalid && (srno.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Sequence NO" [showRequired]="srno?.errors?.required "
+              [showPattern]="srno?.hasError('pattern') && srno.touched">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="completein" class="col-sm-3 col-form-label">Complete In</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input nbInput type="number" fullWidth class="form-control" name="completein" placeholder="Required"
+                required [(ngModel)]="this.checkpoint.completeInSeconds" #completein="ngModel" pattern="[0-9]*"
+                [status]="(completein.dirty|| isSubmitted) ? (completein.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="completein.invalid && (completein.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Complete In Seconds" [showRequired]="completein?.errors?.required "
+              [showPattern]="completein?.hasError('pattern')&& completein.touched">
+            </ngx-validation-message>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="frequency" class="col-sm-3 col-form-label">Frequency</label>
+          <div class="col-sm-9">
+
+            <nb-select  [(selected)]="this.checkpoint.frequencyType"
+              (selectedChange)="changefreaquency($event)" placeholder="Select Frequency"  style="margin-right:4px;">
+              <nb-option value="Daily">Daily</nb-option>
+              <nb-option value="Weekly">Weekly</nb-option>
+              <nb-option value="Monthly">Monthly</nb-option>
+              <nb-option value="Yearly">Yearly</nb-option>
+            </nb-select>
+
+
+            <label for="weekday" *ngIf="this.checkpoint.frequencyType === 'Weekly'">Weekday:</label>
+            <nb-select *ngIf="this.checkpoint.frequencyType === 'Weekly'" style="width: 50%; margin-right:4px;" multiple
+              [(selected)]="this.checkpoint.weekDays" id="weekDays" (selectedChange)="changeweekdays($event)">
+              <nb-option *ngFor="let option of weekdayOptions" [value]="option.value">
+                {{ option.label }}
+              </nb-option>
+            </nb-select>
+
+
+            <label for="monthDay" *ngIf="this.checkpoint.frequencyType === 'Monthly'">Date:</label>
+            <nb-select *ngIf="this.checkpoint.frequencyType === 'Monthly'" style="width: 30%; margin-right:4px;" multiple
+              [(selected)]="this.checkpoint.monthDays" id="monthDays" (selectedChange)="changemonthdays($event)">
+              <nb-option *ngFor="let day of monthDays" [value]="day">
+                {{ day }}
+              </nb-option>
+            </nb-select>
+
+
+            <label for="month" *ngIf="this.checkpoint.frequencyType === 'Yearly'">Month:</label>
+            <nb-select class="month-dropdown" style="width: 50%; margin-right:4px;" multiple [(selected)]="this.checkpoint.yearlyMonths"
+              id="yearlyMonths" (selectedChange)="changeyearlymonths($event)"
+              *ngIf="this.checkpoint.frequencyType === 'Yearly'">
+              <nb-option *ngFor="let month of yearlymonths" [value]="month.value">
+                {{ month.label }}
+              </nb-option>
+            </nb-select>
+
+            <label for="day" *ngIf="this.checkpoint.frequencyType === 'Yearly'">Date:</label>
+            <nb-select class="day-dropdown" style="width: 30%;margin-right:4px;" multiple [(selected)]="this.checkpoint.yearlyMonthDays"
+              id="yearlyMonthDays" (selectedChange)="changesyearlymonthsdays($event)"
+              *ngIf="this.checkpoint.frequencyType === 'Yearly'">
+              <nb-option *ngFor="let day of yearlymonthdays" [value]="day">
+                {{ day }}
+              </nb-option>
+            </nb-select>
+
+          </div>
+        </div>
+      </span>
+      <div class="offset-sm-5 col-sm-6">
+        <div class="container-btn">
+          <button nbButton status="primary" (click)="Save(form)" *ngIf="!isEdit">Save</button>&nbsp;
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

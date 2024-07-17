@@ -1,0 +1,26 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+
+
+  <nb-card-header>
+    <div class="wrapper inline">
+
+      <select [(ngModel)]="selectedTable" (change)="onTableChange()" class="selectStatedrd btn" id="add-config"
+        name="add-config"
+        style="background-color: white; text-align: left; border-style: solid; border-width: 1px; border-color: black; color: black;">
+        <option value="Plant">Plant</option>
+        <option value="Line">Line</option>
+        <option value="Department">Department</option>
+        <option value="Zone">Maintenance Class</option>
+        <option value="Equipment">Equipment</option>
+        <option value="Station">Station</option>
+        <option value="Location">Location</option>
+        <option value="SubLocation">SubLocation</option>
+      </select><button class="btn btn-primary" (click)="InsertData()">Add New</button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    <p>Total records: {{ this.recordsCount }}</p>
+  </nb-card-body>
+</nb-card>

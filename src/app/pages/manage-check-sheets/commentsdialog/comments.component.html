@@ -1,0 +1,22 @@
+<nb-card>
+    <nb-card-header>
+        <label style="font-weight: bold;">{{ title }}</label>
+    </nb-card-header>
+        <nb-card-body>
+    <form [formGroup]="commentForm" (ngSubmit)="submit()">
+
+
+        <textarea formControlName="comments" class="form-control" placeholder="Required"></textarea>
+        <div *ngIf="commentForm.get('comments').invalid && commentForm.get('comments').touched">
+            <div *ngIf="commentForm.get('comments').errors?.required" class="text-danger">{{ this.reqcomt}} is
+                required.</div>
+        </div>
+        <br>
+        <nb-card-footer>
+            <button type="submit" class="OK" nbButton status="success" [disabled]="commentForm.invalid">OK</button>
+            <button nbButton status="danger" (click)="cancel()">Cancel</button>
+        </nb-card-footer>
+    
+    </form>
+</nb-card-body>
+</nb-card>

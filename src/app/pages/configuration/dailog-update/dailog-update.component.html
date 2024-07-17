@@ -1,0 +1,31 @@
+<form #form="ngForm" (ngSubmit)="submit()">
+  <nb-card>
+    <nb-card-header>Update the {{ title }} data</nb-card-header>
+    <nb-card-body>
+      <div class="table">
+        <div class="row">
+          <div class="col-md-3">
+            <label  style="font-size: medium" hidden>{{ configdetails.id }}</label>
+            <label for="code" style="font-size: medium">Code</label>
+          </div>
+          <div class="col-md-6">
+            <input nbInput name="code" id="code" placeholder="Enter the Code" [(ngModel)]="configdetails.code" />
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-3">
+            <label for="name">Description</label>
+          </div>
+          <div class="col-md-6">
+            <input nbInput name="description" id="name" placeholder="Enter the Name" [(ngModel)]="configdetails.description" />
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="cancel" nbButton status="danger" type="button" (click)="cancel()">Cancel</button>
+      <button nbButton status="success" type="submit">Submit</button>
+    </nb-card-footer>
+  </nb-card>
+</form>

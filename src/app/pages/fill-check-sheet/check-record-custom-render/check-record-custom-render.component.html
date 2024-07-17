@@ -1,0 +1,6 @@
+<nb-select [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)" placeholder="Select">
+    <nb-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</nb-option>
+</nb-select>
+<div>
+    <p>{{ this.usercomments }}</p>
+</div>

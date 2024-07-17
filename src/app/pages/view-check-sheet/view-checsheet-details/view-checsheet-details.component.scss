@@ -1,0 +1,55 @@
+.action-groups-header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.left-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  /* Adjust margin as needed */
+  margin-bottom: 10px;
+  /* Adjust margin as needed */
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+label {
+  margin-left: 5px;
+  /* Adjust margin as needed */
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  margin-right: 5px;
+  /* Adjust margin as needed */
+}
+
+.search-button,
+.export-button {
+  size: small ;
+}
+
+.export-button {
+  margin-left: auto;
+  /* Pushes the export button to the right */
+}
+
+@media screen and (max-width: 600px) {
+  .form-group {
+    width: 100%;
+  }
+}

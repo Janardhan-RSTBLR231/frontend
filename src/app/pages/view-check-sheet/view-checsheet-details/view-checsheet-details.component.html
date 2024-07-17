@@ -1,0 +1,46 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header">
+      <div class="left-buttons">
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label for="fromDate">From Date:</label>
+            &nbsp;
+            <input id="fromDate" nbInput placeholder="From Date" [nbDatepicker]="ngmodel" [(ngModel)]="fromDate">
+            <nb-datepicker #ngmodel></nb-datepicker>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label for="toDate">To Date:</label>
+            &nbsp;
+            <input id="toDate" nbInput placeholder="To Date" [nbDatepicker]="ngmodels" [(ngModel)]="toDate">
+            <nb-datepicker #ngmodels></nb-datepicker>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="search-wrapper">
+            <label for="globalSearch">Search:</label>
+            &nbsp;
+            <input id="globalSearch" nbInput #search class="search" type="text" placeholder="Search..."
+              [(ngModel)]="globalSearch" (keyup.enter)="ApplyFilter()" nbTooltipStatus="primary"
+              [nbTooltip]="searchTooltip" nbTooltipPlacement="bottom">
+            <button nbButton status="primary" size="small" class="search-button" (click)="ApplyFilter()">Search</button>
+            &nbsp;&nbsp;
+            <button nbButton status="primary" size="small" class="export-button" (click)="ResetFilter()">Reset</button>
+            &nbsp;&nbsp;
+            <button nbButton status="primary" size="small" class="export-button" (click)="Export()">Export</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    <p>Total rows: {{ totalcount }}</p>
+  </nb-card-body>
+</nb-card>

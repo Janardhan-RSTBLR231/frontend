@@ -1,0 +1,17 @@
+<nb-card>
+    <nb-card-header>Enter Comment</nb-card-header>
+    <nb-card-body>
+        <form [formGroup]="commentForm" (ngSubmit)="submitComment()">
+            <textarea formControlName="comment" class="form-control"></textarea>
+            <div *ngIf="commentControl.invalid || commentControl.value.trim() === ''" class="text-danger">
+                Comments is required.
+            </div>
+            <br>
+            <nb-card-footer>
+                <button class="OK" nbButton status="success" type="submit"
+                    [disabled]="commentForm.invalid || commentControl.value.trim() === ''">OK</button>
+                <button nbButton status="danger" (click)="cancel()">Cancel</button>
+            </nb-card-footer>
+        </form>
+    </nb-card-body>
+</nb-card>

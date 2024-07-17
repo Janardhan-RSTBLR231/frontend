@@ -1,0 +1,114 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card >
+  <nb-card-header style="padding-bottom: 5px;" class="header-container">
+    <div class="title">{{ title }}</div>
+    <div class="button-container">
+      <button nbButton status="primary" size="small" (mousedown)="back()">Back</button>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="padding-top: 3px;">
+    <form #form="ngForm" name="form" aria-labelledby="title" novalidate>
+      <span>
+        <div class="form-group row">
+          <label for="loginid" class="col-sm-2 col-form-label">Login Id</label>
+          <div class="col-sm-6">
+            <input nbInput fullWidth id="loginid" type="text" class="form-control" name="loginid"
+              [(ngModel)]="user.loginId" placeholder="Required" required #loginId="ngModel"
+              [status]="(loginId.dirty|| isSubmitted) ? (loginId.invalid  ? 'danger' : 'success') : ''"
+              [attr.aria-invalid]="loginId.invalid && (loginId.touched || isSubmitted) ? true : null">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="fullName" class="col-sm-2 col-form-label">User Name</label>
+          <div class="col-sm-6">
+            <input nbInput fullWidth id="fullName" type="text" class="form-control" name="fullName"
+              [(ngModel)]="user.fullName" placeholder="Required" required #fullName="ngModel"
+              [status]="(fullName.dirty|| isSubmitted) ? (fullName.invalid  ? 'danger' : 'success') : ''"
+              [attr.aria-invalid]="fullName.invalid && (fullName.touched || isSubmitted) ? true : null">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="email" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <input nbInput type="text" id="email" fullWidth class="form-control" name="email" [(ngModel)]="user.email"
+                oninput="this.value = this.value.toLowerCase()" placeholder="Email" pattern=".+@.+\..+" 
+                [minlength]="10" [maxlength]="100" #email="ngModel"
+                [status]="(email.dirty|| isSubmitted) ? (email.invalid  ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="email.invalid && (email.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Email name" 
+              [showPattern]="email?.hasError('pattern') && email.touched">
+            </ngx-validation-message>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="phoneNumber" class="col-sm-2 col-form-label">Phone Number</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <input nbInput type="tel" id="phoneNumber" fullWidth class="form-control" name="phoneNumber"
+                [(ngModel)]="user.phoneNumber" placeholder="Phone Number" pattern="[0-9]{10}" 
+                #phoneNumber="ngModel"
+                [status]="(phoneNumber.dirty || isSubmitted) ? (phoneNumber.invalid ? 'danger' : 'success') : ''"
+                [attr.aria-invalid]="phoneNumber.invalid && (phoneNumber.touched || isSubmitted) ? true : null">
+            </div>
+            <ngx-validation-message label="Phone number"
+              [showPattern]="phoneNumber?.hasError('pattern') && phoneNumber.touched">
+            </ngx-validation-message>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="plant" class="col-sm-2 col-form-label">Plant</label>
+          <div class="col-sm-6">
+            <nb-select fullWidth placeholder="plant" size="medium" [(selected)]="user.plantId"
+              (selectedChange)="changePlant($event)" placeholder="Select" required #selectedPlant>
+              <nb-option *ngFor="let plant of filterPlant" [value]="plant.id">{{plant.description}}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="department" class="col-sm-2 col-form-label">Department</label>
+          <div class="col-sm-6">
+            <nb-select fullWidth placeholder="department" size="medium" required [(selected)]="user.departmentId"
+              (selectedChange)="changeDepartment($event)" placeholder="Select">
+              <nb-option *ngFor="let department of filterDepartment"
+                [value]="department.id">{{department.description}}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="line" class="col-sm-2 col-form-label">Line</label>
+          <div class="col-sm-6">
+            <nb-select fullWidth placeholder="Line" size="medium" multiple [(selected)]="user.lineIds"
+              (selectedChange)="changeLine($event)" placeholder="Select">
+              <nb-option *ngFor="let line of filterLine" [value]="line.id">{{line.description}}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="role" class="col-sm-2 col-form-label">Role</label>
+          <div class="col-sm-6">
+            <nb-select fullWidth placeholder="role" size="medium" [(selected)]="user.role"
+              (selectedChange)="changeRole($event)" placeholder="Select">
+              <nb-option *ngFor="let roles of userRole" [value]="roles">{{roles}}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="isactive" class="col-sm-2 col-form-label">Is Active?</label>
+          <div class="col-sm-6">
+            <nb-checkbox [checked]="this.user.isActive" (checkedChange)="changeIsActive($event)"></nb-checkbox>
+          </div>
+        </div>
+      </span>
+      <div class="offset-sm-3 col-sm-9">
+        <div class="container-btn">
+          <button nbButton status="primary" size="small" (click)="save(form)">Save</button>&nbsp;
+          <button *ngIf="isEdit" nbButton status="danger" size="small" (click)="deleteUser()">Delete</button>&nbsp;
+          <button *ngIf="isEdit" nbButton status="primary" size="small" (click)="changePassword()">Change Password</button>&nbsp;
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

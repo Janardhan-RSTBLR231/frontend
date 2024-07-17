@@ -1,0 +1,96 @@
+nb-card {
+  transform: translate3d(0, 0, 0);
+}
+
+// nb-card-header {
+//   display: flex;
+//   align-items: center;
+// }
+
+// .action-groups-header {
+//   flex-basis: 20%;
+//   color: nb-theme(card-header-fg-heading);
+//   font-family: nb-theme(card-header-font-family);
+//   font-size: nb-theme(card-header-font-size);
+//   font-weight: nb-theme(card-header-font-weight);
+// }
+
+// .nb-actions {
+//   flex-basis: 80%;
+// }
+
+:host ::ng-deep .ng2-smart-action-multiple-select {
+  text-align: start;
+}
+
+:host ::ng-deep .ng2-smart-action-multiple-select>input {
+  width: 13px;
+  height: 13px;
+  display: unset;
+}
+
+
+
+// *.search-container {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-end;
+//   margin-bottom: 5px;
+//   margin-left: 200px;
+// }
+
+
+// .search-container .search-box {
+//   display: flex;
+//   align-items: center;
+// }
+
+// .search-container .search-box input {
+//   flex: 1;
+// }
+// .search-container {
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+// }
+
+// .search-box {
+//   margin-right: 10px;
+//   /* Adjust margin as needed */
+// }
+
+// /* Responsive styles */
+// @media (max-width: 768px) {
+//   .search-container {
+//     flex-direction: column;
+//     align-items: flex-end;
+//   }
+
+//   .search-box {
+//     margin-right: 0;
+//     margin-bottom: 10px;
+//     /* Add some space between elements in mobile view */
+//   }
+// }
+.action-groups-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.right-controls {
+  display: flex;
+  align-items: center;
+}
+
+/* Adjust margin or padding as needed */
+.left-buttons button {
+  margin-right: 10px;
+}
+.hourglass-cursor {
+  cursor: wait !important;
+}

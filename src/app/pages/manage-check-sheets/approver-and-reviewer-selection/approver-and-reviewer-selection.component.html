@@ -1,0 +1,101 @@
+<nb-card style="width: 120%;">
+    <nb-card-header>
+        <label style="font-weight: bold;">{{title}}</label>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="form-group row">
+            <label *ngIf="title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow'"
+                class="col-sm-2 col-form-label">Control
+                No:</label>&nbsp;
+            <div class="col-sm-9">
+                <input *ngIf="title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow'" type="text"
+                    nbInput fullWidth placeholder="Required" [(ngModel)]="uniqueid" [formControl]="uniqueidControl"
+                    name="uniqueid" required>
+                <div *ngIf="title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow' && uniqueidControl.invalid && uniqueidControl.errors?.required"
+                    class="text-danger">
+                    Control No is required.
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow'">
+            <label for="line" class="col-sm-2 col-form-label">Line:</label>
+            <div class="col-sm-9">
+                <nb-select id="line" name="line" fullWidth placeholder="Line" size="medium"
+                    (selectedChange)="changeline($event)" placeholder="Select" [(ngModel)]="selectedLine" required
+                    #lineInput="ngModel" >
+                    <nb-option *ngFor="let line of filterLine" [value]="line.id">{{line.description}}</nb-option>
+                </nb-select>
+                <div *ngIf="lineInput.invalid && title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow'" class="text-danger">
+                    <span *ngIf="lineInput.errors.required">Please select a Line.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow'">
+            <label for="station" class="col-sm-2 col-form-label">Station:</label>
+            <div class="col-sm-9">
+                <nb-select id="station" name="station" fullWidth placeholder="Station" (selectedChange)="changestation($event)"
+                    placeholder="Select" [(ngModel)]="selectedStation" required #stationInput="ngModel">
+                    <nb-option *ngFor="let station of filterStation" [value]="station.id">{{station.description}}</nb-option>
+                </nb-select>
+                <div *ngIf="stationInput.invalid && title !== 'Create Check Sheet Revision'&& title !== 'Edit WorkFlow'" class="text-danger" >
+                    <span *ngIf="stationInput.errors.required">Please select a Station.</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <nb-card style="width:100%" >
+                    <nb-card-header>Select Reviewers</nb-card-header>
+                    <div *ngIf="reviewersCheckedInvalid" class="text-danger">
+                        Please select at least one reviewer.
+                    </div>
+                    <nb-card-body class="scroll-container">
+                        <div cdkDropList (cdkDropListSorted)="onListOrderChange1($event)">
+                            <div *ngFor="let reviewer of reviewer; let i = index" cdkDrag
+                                [attr.seqOrder]="'seqOrder_' + (i + 1)">
+                                <nb-checkbox [(ngModel)]="reviewerChecked[i]">
+                                    <span hidden>{{ reviewer.reviewerId }}</span>
+                                    <span hidden>{{ reviewer.reviewedOn }}</span>
+                                    <span hidden>{{ reviewer.email }}</span>
+                                    <span>{{ reviewer.reviewerName }}, {{ reviewer.department }}</span>
+                                    <span hidden>{{ reviewer.isReviewed }}</span>
+                                </nb-checkbox>
+                            </div>
+                        </div>
+
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <div class="col-sm-6" style="width:100%" >
+                <nb-card >
+                    <nb-card-header>Select Approvers</nb-card-header>
+                    <div *ngIf="approversCheckedInvalid" class="text-danger">
+                        Please select at least one approver.
+                    </div>
+                    <nb-card-body class="scroll-container" >
+                        <div cdkDropList (cdkDropListSorted)="onListOrderChange($event)">
+                            <div *ngFor="let approver of approver; let i = index" cdkDrag
+                                [attr.seqOrder]="'seqOrder_' + (i + 1)">
+                                <nb-checkbox [(checked)]="approverChecked[i]">
+                                    <span hidden>{{ approver.approverId }}</span>
+                                    <span hidden>{{ approver.approvedOn }}</span>
+                                    <span hidden>{{ approver.email }}</span>
+                                    <span>{{ approver.approverName }}, {{ approver.department }}</span>
+                                    <span hidden>{{ approver.isApproved }}</span>
+                                </nb-checkbox>
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="offset-sm-3 col-sm-6">
+            <button class="OK" nbButton status="success" (click)="submit()">OK</button>
+            <button nbButton status="danger" (click)="cancel()">Cancel</button>
+        </div>
+    </nb-card-footer>
+
+</nb-card>

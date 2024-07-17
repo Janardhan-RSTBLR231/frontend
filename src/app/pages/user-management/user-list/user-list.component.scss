@@ -1,0 +1,32 @@
+nb-card {
+  transform: translate3d(0, 0, 0);
+}
+
+nb-card-header {
+  display: flex;
+  align-items: center;
+}
+.left-buttons button {
+  margin-right: 10px;
+}
+.action-groups-header {
+  flex-basis: 20%;
+  color: nb-theme(card-header-fg-heading);
+  font-family: nb-theme(card-header-font-family);
+  font-size: nb-theme(card-header-font-size);
+  font-weight: nb-theme(card-header-font-weight);
+}
+
+.nb-actions {
+  flex-basis: 80%;
+}
+
+:host ::ng-deep .ng2-smart-action-multiple-select {
+  text-align: start;
+}
+
+:host ::ng-deep .ng2-smart-action-multiple-select>input {
+  width: 13px;
+  height: 13px;
+  display: unset;
+}

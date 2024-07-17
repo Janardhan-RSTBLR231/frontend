@@ -1,0 +1,256 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-header class="header-container">
+    <div class="title"  [class.locked-field]="isReadonly">{{ title }}</div>
+    <div class="button-container">
+      <button nbButton status="primary" size="small" (mousedown)="addNewCheckPoint()"
+        *ngIf="showaddCheckPoint && !isReadonly">
+        Add New Check Point</button>
+      <button nbButton status="primary" size="small" (mousedown)="review()" *ngIf="showReview">Review</button>
+      <button nbButton status="primary" size="small" (mousedown)="submitt()" *ngIf="showSubmitt">Submit</button>
+      <button nbButton status="primary" size="small" (mousedown)="approve()" *ngIf="showApprove">Approve</button>
+      <button nbButton status="primary" size="small" (mousedown)="rejectchecksheet()"
+        *ngIf="showReject && status!=='In Progress' && status!=='Rejected'">Reject</button>
+      <button nbButton status="primary" size="small" (mousedown)="replicate()" *ngIf="showReplicate">Replicate
+        CheckSheet</button>
+      <button nbButton status="primary" size="small" (mousedown)="createversion()" *ngIf="showCreateVersion">Create
+        New Revision</button>
+      <button nbButton status="danger" size="small" (mousedown)="deleteCheckSheet()" *ngIf="showDelete">Delete</button>
+      <button nbButton status="primary" size="small" (mousedown)="back()">Back</button>
+    </div>
+
+  </nb-card-header>
+
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab tabTitle="General">
+        <nb-card *ngIf="csdata">
+          <nb-card-body>
+            <form #form="ngForm" name="form" aria-labelledby="title" novalidate>
+              <span>
+                <div class="form-group row">
+                  <label for="uniqueid" class="col-sm-2 col-form-label">Control No</label>
+                  <div class="col-sm-6">
+                    <input nbInput fullWidth type="text" class="form-control" name="uniqueid" id="uniqueid"
+                      [(ngModel)]="csdata.uniqueId" #uniqueId="ngModel" readonly [class.locked-field]="isReadonly">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="line" class="col-sm-2 col-form-label">Line</label>
+                  <div class="col-sm-6">
+                    <input nbInput fullWidth type="text" class="form-control" name="line" id="line"
+                      [(ngModel)]="csdata.line" #line="ngModel" readonly [class.locked-field]="isReadonly">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="station" class="col-sm-2 col-form-label">Station</label>
+                  <div class="col-sm-6">
+                    <input nbInput fullWidth type="text" class="form-control" name="station" id="station"
+                      [(ngModel)]="csdata.station" #station="ngModel" readonly [class.locked-field]="isReadonly">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="revision" class="col-sm-2 col-form-label">Revision</label>
+                  <div class="col-sm-6">
+                    <input nbInput fullWidth type="text" class="form-control" name="revision" id="revision"
+                      [(ngModel)]="csdata.revision" #revision="ngModel" readonly size="small"
+                      [class.locked-field]="isReadonly">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="name" class="col-sm-2 col-form-label">Check Sheet Name</label>
+                  <div class="col-sm-6">
+                    <input nbInput fullWidth type="text" class="form-control" name="name" #name="ngModel"
+                      [(ngModel)]="csdata.name" id="name"
+                      [status]="(name.dirty|| isSubmitted) ? (name.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="name.invalid && (name.touched || isSubmitted) ? true : null"
+                      [class.locked-field]="isReadonly" placeholder="Check Sheet Name" required>
+                      <ngx-validation-message label="Check Sheet Name" [showRequired]="name?.errors?.required ">
+                      </ngx-validation-message>
+                      
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label for="machinezone" class="col-sm-2 col-form-label">Maintenance Class</label>
+                  <div class="col-sm-6">
+                    <input
+                     #zoneAutoInput 
+                     fullWidth 
+                     nbInput 
+                     type="text" 
+                     (input)="onZoneChange()" 
+                     placeholder="Search"
+                    [(ngModel)]="selectedZone" 
+                    [nbAutocomplete]="zoneAuto" 
+                    [formControl]="ZoneControl"
+                    [status]="(ZoneControl.dirty || isSubmitted) ? (ZoneControl.invalid ? 'danger' : 'success') : ''"
+                    [attr.aria-invalid]="ZoneControl.invalid && (ZoneControl.touched || isSubmitted) ? true : null"
+                    [class.locked-field]="isReadonly" name="machinezone" id="machinezone" required>
+                  <ngx-validation-message label="Maintenance Class" [showRequired]="ZoneControl?.errors?.required">
+                  </ngx-validation-message>
+                    <nb-autocomplete #zoneAuto (selectedChange)="changezone($event)" [handleDisplayFn]="displayZone">
+                      <nb-option *ngFor="let zone of filterZone" [value]="zone" >
+                        {{ zone.description }}
+                      </nb-option>
+                    </nb-autocomplete>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="department" class="col-sm-2 col-form-label">Department</label>
+                  <div class="col-sm-6">                    
+                  <input 
+                  #departmentAutoInput
+                   fullWidth
+                    nbInput
+                     type="text"
+                      (input)="onDepartmentChange()"
+                       placeholder="Search"
+                    [(ngModel)]="selectedDepartment" 
+                    [nbAutocomplete]="departmentAuto"
+                    [formControl]="DepartmentControl"
+                    [status]="(DepartmentControl.dirty || isSubmitted) ? (DepartmentControl.invalid ? 'danger' : 'success') : ''"
+                    [attr.aria-invalid]="DepartmentControl.invalid && (DepartmentControl.touched || isSubmitted) ? true : null"
+                    [class.locked-field]="isReadonly" name="department" id="department" required>
+                  <ngx-validation-message label="Department" [showRequired]="DepartmentControl?.errors?.required">
+                  </ngx-validation-message>
+                  
+                  <nb-autocomplete #departmentAuto (selectedChange)="changedepartment($event)" [handleDisplayFn]="displayDepartment"> 
+                    <nb-option *ngFor="let department of filterDepartment" [value]="department" >
+                      {{ department.description }}
+                    </nb-option>
+                  </nb-autocomplete>
+
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="equipment" class="col-sm-2 col-form-label">Equipment Name</label>
+                  <div class="col-sm-6">
+                    <input #equipmentAutoInput
+                     fullWidth
+                      nbInput
+                      type="text"
+                      (input)="onEquipmentChange()"
+                      placeholder="Search"
+                      [(ngModel)]="selectedEquipment"
+                      [nbAutocomplete]="equipmentAuto"
+                      [formControl]="EquipmentControl"
+                      [status]="(EquipmentControl.dirty || isSubmitted) ? (EquipmentControl.invalid ? 'danger' : 'success') : ''"
+                    [attr.aria-invalid]="EquipmentControl.invalid && (EquipmentControl.touched || isSubmitted) ? true : null"
+                    [class.locked-field]="isReadonly" name="equipment" id="equipment" required />
+                    <ngx-validation-message label="Equipment" [showRequired]="EquipmentControl?.errors?.required">
+                    </ngx-validation-message>
+                    <nb-autocomplete #equipmentAuto (selectedChange)="changeequipment($event)" [handleDisplayFn]="displayEquipment">
+                      <nb-option *ngFor="let equipment of filterEquipment" [value]="equipment">
+                        {{ equipment.description }}
+                      </nb-option>
+                    </nb-autocomplete>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="location" class="col-sm-2 col-form-label">Location</label>
+                  <div class="col-sm-6">
+                    <input
+                     #locationAutoInput
+                      fullWidth 
+                      nbInput type="text" 
+                      (input)="onLocationChange()" 
+                      placeholder="Search"
+                      [(ngModel)]="selectedLocation" 
+                      [nbAutocomplete]="locationAuto" 
+                      [formControl]="LocationControl"
+                      [status]="(LocationControl.dirty || isSubmitted) ? (LocationControl.invalid ? 'danger' : 'success') : ''"
+                    [attr.aria-invalid]="LocationControl.invalid && (LocationControl.touched || isSubmitted) ? true : null"
+                    [class.locked-field]="isReadonly" name="location" id="location" required/>
+                    <ngx-validation-message label="Location" [showRequired]="LocationControl?.errors?.required">
+                    </ngx-validation-message>
+                    <nb-autocomplete #locationAuto (selectedChange)="changelocation($event)" [handleDisplayFn]="displayLocation">
+                      <nb-option *ngFor="let location of filterLocation" [value]="location">
+                        {{ location.description }}
+                      </nb-option>
+                    </nb-autocomplete>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="sublocation" class="col-sm-2 col-form-label">Sub Location</label>
+                  <div class="col-sm-6">
+                    <input #sublocationAutoInput
+                     fullWidth
+                      nbInput
+                       type="text"
+                      (input)="onSubLoactionChange()"
+                       placeholder="Search"
+                      [(ngModel)]="selectedSubLocation"
+                       [nbAutocomplete]="sublocationAuto"
+                       [formControl]="SubLocationControl" 
+                       [status]="(SubLocationControl.dirty || isSubmitted) ? (SubLocationControl.invalid ? 'danger' : 'success') : ''"
+                    [attr.aria-invalid]="SubLocationControl.invalid && (SubLocationControl.touched || isSubmitted) ? true : null"
+                    [class.locked-field]="isReadonly" name="sublocation" id="sublocation" required/>
+                    <ngx-validation-message label="Sub Location" [showRequired]="SubLocationControl?.errors?.required">
+                    </ngx-validation-message>
+                    <nb-autocomplete #sublocationAuto (selectedChange)="changesublocation($event)" [handleDisplayFn]="displaySubLocation">
+                      <nb-option *ngFor="let sublocation of filterSubLocation" [value]="sublocation">
+                        {{ sublocation.description }}
+                      </nb-option>
+                    </nb-autocomplete>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="activateOn" class="col-sm-2 col-form-label">Activate On</label>
+                  <div class="col-sm-6">
+                    <input nbInput fullWidth id="activateOn" class="form-control" name="activateOn"
+                      [(ngModel)]="this.csdata.activateOn" placeholder="Required" required
+                      [status]="(activateOn.dirty|| isSubmitted) ? (activateOn.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="activateOn.invalid &&( activateOn.touched || isSubmitted)? true : null"
+                      [class.locked-field]="isReadonly" [nbDatepicker]="activateOn"> <nb-datepicker #activateOn
+                      [min]="mindate"></nb-datepicker>
+                    <ngx-validation-message label="Activate On"
+                      [showRequired]="activateOn?.errors?.required && activateOn.touched">
+                    </ngx-validation-message>
+                  </div>
+                </div>
+
+                <br>
+              </span>
+              <div class="offset-sm-5 col-sm-6">
+
+                <button nbButton status="primary" size="small" (click)="save(form) "
+                  *ngIf="!isReadonly">Save</button>&nbsp;
+
+              </div>
+
+            </form>
+
+          </nb-card-body>
+        </nb-card>
+      </nb-tab>
+
+
+      <nb-tab tabTitle="Check Points">
+        <ng2-smart-table [settings]="settings" [source]="this.checkpoints" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="Workflow">
+        <div>
+          <h6>Reviewers</h6>
+          <ng2-smart-table [settings]="reviewerSettings" [source]="reviewer"></ng2-smart-table>
+          <h6>Approvers</h6>
+          <ng2-smart-table [settings]="approverSettings" [source]="approver"></ng2-smart-table>
+          <h6>Change Details</h6>
+          <ng2-smart-table [settings]="changeDetailsSettings"
+            [source]="[{ changeDetails: changeDetails }]"></ng2-smart-table>
+
+        </div>
+        &nbsp;
+        <div class="offset-sm-5 col-sm-6">
+          <span>
+            <button nbButton status="primary" size="small" (click)="editWorkFlow()" *ngIf="showaddCheckPoint">Edit
+              WorkFlow</button>&nbsp;
+          </span>
+        </div>
+
+      </nb-tab>
+
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,10 @@
+<ng-lottie
+  [options]="options"
+  [width]="width"
+  [height]="height"
+  *ngIf="options"
+  containerClass="margin-center"
+  (animationCreated)="animationCreated($event)"
+  (mouseenter)="start()"
+  (mouseleave)="stop()"
+></ng-lottie>

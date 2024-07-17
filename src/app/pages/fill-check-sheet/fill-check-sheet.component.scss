@@ -1,0 +1,33 @@
+.icon-right {
+  position: absolute;
+  right: 8px;
+  /* Adjust the right spacing as needed */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.top-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  /*  grid-template-columns: repeat(1, minmax(0, 1fr));
+  display: grid;
+  gap: 0.5rem;*/
+
+  @media (min-width: 653px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.locked-field {
+  pointer-events: none;
+  opacity: 0.7;
+}

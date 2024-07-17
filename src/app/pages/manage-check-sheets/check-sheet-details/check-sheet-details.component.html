@@ -1,0 +1,44 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header">
+      <div class="left-buttons">
+        <button nbButton status="primary" size="small" *ngIf="userRole==='SuperAdmin'|| userRole==='Creator'" (click)="newChecksheet()">ADD
+          NEW</button>
+      </div>
+      <div class="right-controls">
+        <input nbInput #search class="search" type="text" placeholder="Search..." [(ngModel)]="this.globalSearch"
+          (keyup.enter)="ApplyFilter()" nbTooltipStatus="primary" [nbTooltip]="searchTooltip" nbTooltipPlacement="bottom">&nbsp;
+        <nb-checkbox status="basic" [(ngModel)]="checkboxChecked">Show Version</nb-checkbox>&nbsp;
+        <button nbButton status="primary" size="small" class="search-button" (click)="ApplyFilter()">Apply</button>
+      </div>
+    </div>
+  </nb-card-header>
+
+
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab tabTitle="ALL">
+        <ng2-smart-table [settings]="settings" [source]="this.allTab" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+        <p>Total rows: {{ this.allCount }}</p>
+      </nb-tab>
+      <nb-tab tabTitle="Submitted" badgeText="{{this.submittedTabCount}}" badgePosition="top right"
+        badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="this.submittedTab" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+        <p>Total rows: {{ this.submittedCount }}</p>
+      </nb-tab>
+      <nb-tab tabTitle="Reviewed" badgeText="{{this.reviewedTabCount}}" badgePosition="top right" badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="this.reviewedTab" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+        <p>Total rows: {{ this.reveiewCount }}</p>
+      </nb-tab>
+      <nb-tab tabTitle="Approved" badgeText="{{this.approvedTabCount}}" badgePosition="top right" badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="this.approvedTab" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+        <p>Total rows: {{ this.approveCount }}</p>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

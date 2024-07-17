@@ -1,0 +1,36 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+
+}
+.title {
+    flex: 1;
+}
+
+.button-container {
+    flex: 1;
+}
+@media screen and (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+    }
+
+
+}
+.button-container button {
+    margin-left: 110px;
+    //margin-right: 10px;
+    margin-bottom: 5px;
+}
+///
+.password-input {
+    position: relative;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }

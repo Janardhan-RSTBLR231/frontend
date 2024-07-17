@@ -1,0 +1,16 @@
+.action-groups-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-groups-header .btn {
+  margin-left: 10px;
+}
+
+
+
+.locked-field {
+  pointer-events: none;
+  opacity: 0.7;
+}
+

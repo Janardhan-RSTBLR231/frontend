@@ -1,0 +1,16 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header">
+      <div class="left-buttons">
+        <button nbButton status="primary" size="small" (click)="newChecksheet()">ADD NEW</button>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onUserRowSelect($event)">
+    </ng2-smart-table>
+      <p>Total records: {{ this.recordsCount }}</p>
+  </nb-card-body>
+</nb-card>

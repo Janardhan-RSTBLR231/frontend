@@ -1,0 +1,44 @@
+<ngx-spinner type="ball-spin-clockwise" color="skyblue"></ngx-spinner>
+<nb-card>
+  <nb-card-body>
+    <div style="display: inline;margin-bottom:15px">
+      <div class="search-container">
+        <label class="label">Below are the list of check sheets to be completed today</label>
+        <div class="search-box">
+          <input #search nbInput class="search" type="text" placeholder="Search..." [(ngModel)]="this.globalSearch" (keyup.enter)="ApplyFilter()"
+           > &nbsp;
+                    <button class="btn btn-primary" (click)="ApplyFilter()">Apply</button>&nbsp;
+                    <button class="btn btn-secondary" (click)="ResetFilter()" >Reset</button>&nbsp;
+                    
+          &nbsp;
+        </div>
+      </div>
+    </div>
+    <br>
+    <nb-tabset>
+      <nb-tab tabTitle="ALL">
+        <ng2-smart-table [settings]="settings" [source]="this.allData" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="Not Started" badgeText="{{ notStartedBadgeCount }}" badgePosition="top right"
+        badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="notStartedData" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="In-Progress" badgeText="{{ inProgressBadgeCount }}" badgePosition="top right"
+        badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="inProgressData" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="Submitted" badgeText="{{ submittedBadgeCount }}" badgePosition="top right"
+        badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="submittedData" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+      </nb-tab>
+      <nb-tab tabTitle="Approved" badgeText="{{ approvedBadgeCount }}" badgePosition="top right" badgeStatus="primary">
+        <ng2-smart-table [settings]="settings" [source]="approvedData" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>
